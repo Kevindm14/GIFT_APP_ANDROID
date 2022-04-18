@@ -2,9 +2,12 @@
     <string name="app_name">gift_app_android</string>
     <string name="login">Iniciar Sesion</string>
     <string name="signup">Registrarse</string>
-    <string name="tus_eventos">Tus Eventos</string>
+    <string name="tus_eventos">Tus Eventos 🎁</string>
     <string name="_12_eventos">12 Eventos</string>
     <string name="salir">Salir</string>
     <string name="kevin">Kevin</string>
     <string name="nuevo_evento">Nuevo evento</string>
+    <string name="rellena_la_informacion_debajo">Rellena la informacion debajo</string>
+    <string name="volver">Volver</string>
+    <string name="descripcion">Descripcion</string>
 </resources>

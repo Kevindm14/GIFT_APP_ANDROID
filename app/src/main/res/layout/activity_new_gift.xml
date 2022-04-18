@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewEventActivity">
+    tools:context=".NewGiftActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -28,7 +28,7 @@
                 android:id="@+id/myEvent"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:text="Nuevo Evento"
+                android:text="Nuevo Regalo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -63,36 +63,27 @@
         android:paddingHorizontal="35dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/titleEvent"
+            android:id="@+id/titleGift"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:minHeight="48dp"
-            android:hint="Titulo del evento"/>
+            android:hint="Titulo del Regalo"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/descriptionEvent"
+        <Button
+            android:id="@+id/uploadVideo"
+            android:background="@drawable/button_rounded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:minHeight="48dp"
-            android:hint="Descripcion del evento"/>
+            android:layout_marginTop="20dp"
+            android:text="Buscar Video"/>
 
-        <EditText
-            android:id="@+id/etDate"
+        <ImageView
+            android:id="@+id/previewGift"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:hint="¿Cuando quieres la fecha?"/>
-
-        <EditText
-            android:id="@+id/giftID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Gift ID"/>
+            android:layout_height="165dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_launcher_background" />
 
         <Button
             android:id="@+id/saveEvent"
@@ -100,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Guardar Evento"/>
+            android:text="Guardar Regalo"/>
 
 
 

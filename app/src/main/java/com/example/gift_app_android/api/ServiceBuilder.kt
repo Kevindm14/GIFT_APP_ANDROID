@@ -5,15 +5,26 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder {
-    private val client = OkHttpClient.Builder().build()
+    private const val BASE_URL = "http://10.0.2.2:3000/"
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:3000/") // change this IP for testing by your actual machine IP
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build()
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val original = chain.request()
 
-    fun<T> buildService(service: Class<T>): T{
-        return retrofit.create(service)
+            val requestBuilder = original.newBuilder()
+                .method(original.method, original.body)
+
+            val request = requestBuilder.build()
+                chain.proceed(request)
+        }.build()
+
+    val instance: Api by lazy{
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        retrofit.create(Api::class.java)
     }
 }

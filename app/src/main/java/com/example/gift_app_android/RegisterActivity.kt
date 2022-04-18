@@ -3,7 +3,6 @@ package com.example.gift_app_android
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.gift_app_android.databinding.ActivityLoginBinding
 import com.example.gift_app_android.databinding.ActivityRegisterBinding
 import com.example.gift_app_android.models.User
 import com.example.gift_app_android.storage.SharedPrefManager

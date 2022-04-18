@@ -1,8 +1,10 @@
 package com.example.gift_app_android
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import com.bumptech.glide.Glide
 import com.example.gift_app_android.databinding.ActivityEventBinding
 import com.example.gift_app_android.models.Event
@@ -23,11 +25,17 @@ class EventActivity : AppCompatActivity() {
         }
 
         val event = intent.extras?.get("event") as Event
+
+        println(event.Gift)
+
+        val imageBytes = Base64.decode(event.Gift.qr, Base64.DEFAULT)
+        val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
         binding.myEvent.text = event.title
         binding.eventDescription.text = event.description
         Glide
             .with(binding.giftImg.context)
-            .load("https://upload.wikimedia.org/wikipedia/commons/3/37/MITC2013_QR_Code.jpg")
+            .load(decodedImage)
             .into(binding.giftImg)
     }
 }

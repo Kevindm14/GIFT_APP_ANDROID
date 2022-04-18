@@ -1,14 +1,29 @@
 package com.example.gift_app_android.api
 
+import com.example.gift_app_android.models.CreateEventResponse
+import com.example.gift_app_android.models.EventResponse
+import com.example.gift_app_android.models.Response
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.Call
+import retrofit2.http.*
 
 interface Api {
     @Headers("Content-Type: application/json")
     @POST("/auth/login")
-    suspend fun login(@Body requestBody: RequestBody): Response<ResponseBody>
+    fun login(
+        @Body body: RequestBody
+    ): Call<Response>
+
+    @Headers("Content-Type: application/json")
+    @GET("/events")
+    fun listEvents(
+        @Header("Authorization") auth: String
+    ): Call<EventResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/events/create")
+    fun createEvent(
+        @Body body: RequestBody,
+        @Header("Authorization") auth: String
+    ): Call<CreateEventResponse>
 }
