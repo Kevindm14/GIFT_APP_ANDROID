@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gift_app_android.adapters.EventAdapter
 import com.example.gift_app_android.api.ServiceBuilder
 import com.example.gift_app_android.databinding.ActivityProfileBinding
 import com.example.gift_app_android.models.Event
 import com.example.gift_app_android.models.EventResponse
 import com.example.gift_app_android.storage.SharedPrefManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -23,23 +27,20 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ServiceBuilder.instance.listEvents("Bearer "+ SharedPrefManager.getInstance(this).token)
-            .enqueue(object: Callback<EventResponse> {
-                override fun onResponse(call: Call<EventResponse>, response: retrofit2.Response<EventResponse>) {
-                    Toast.makeText(applicationContext, response.message(), Toast.LENGTH_LONG).show()
-                    eventList = response.body()?.events!!
-                    initRecyclerView()
+        CoroutineScope(Dispatchers.Main).launch {
+            val call = ServiceBuilder.instance.listEvents("Bearer "+ SharedPrefManager.getInstance(applicationContext).token)
+            val resEvent = call.body()
 
-                    binding.totalEvents.text = "${eventList.size} Eventos"
+            if (call.isSuccessful) {
+                eventList = resEvent?.events!!
+                println(eventList)
+                initRecyclerView()
 
-                    println(eventList[0].Gift)
-                }
-
-                override fun onFailure(call: Call<EventResponse>, t: Throwable) {
-                    Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
-                }
-
-            })
+                binding.totalEvents.text = "${eventList.size} Eventos"
+            } else {
+                println("==== ${call.message()}")
+            }
+        }
 
         binding.btnNewEvent.setOnClickListener {
             val intent = Intent(applicationContext, NewEventActivity::class.java)
@@ -67,7 +68,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         val recyclerView = binding.eventslist
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = EventAdapter(eventList) { event ->
             onClick(event)
         }
@@ -80,10 +81,5 @@ class ProfileActivity : AppCompatActivity() {
         intent.putExtra("event", event)
 
         startActivity(intent)
-    }
-
-    private fun listEvents() {
-
-
     }
 }

@@ -78,6 +78,14 @@
             android:minHeight="48dp"
             android:hint="Descripcion del evento"/>
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/partipants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:minHeight="48dp"
+            android:hint="Agrega tus participantes (Correo)"/>
+
         <EditText
             android:id="@+id/etDate"
             android:layout_width="match_parent"
@@ -87,13 +95,11 @@
             android:focusable="false"
             android:hint="¿Cuando quieres la fecha?"/>
 
-        <EditText
+        <Spinner
             android:id="@+id/giftID"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Gift ID"/>
-
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"/>
         <Button
             android:id="@+id/saveEvent"
             android:background="@drawable/button_rounded"

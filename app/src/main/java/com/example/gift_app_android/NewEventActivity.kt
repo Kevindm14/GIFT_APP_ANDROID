@@ -3,12 +3,17 @@ package com.example.gift_app_android
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.gift_app_android.api.ServiceBuilder
 import com.example.gift_app_android.databinding.ActivityNewEventBinding
 import com.example.gift_app_android.fragments.DatePickerFragment
 import com.example.gift_app_android.models.CreateEventResponse
+import com.example.gift_app_android.models.Gift
 import com.example.gift_app_android.storage.SharedPrefManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -23,6 +28,9 @@ class NewEventActivity : AppCompatActivity() {
         binding = ActivityNewEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var listGift = mutableListOf<Gift>()
+        var listSpinner = mutableListOf<String>()
+
         binding.btnBack.setOnClickListener {
             val intent = Intent(applicationContext, ProfileActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -30,15 +38,42 @@ class NewEventActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        CoroutineScope(Dispatchers.Main).launch {
+            val call = ServiceBuilder.instance.listGifts(
+                SharedPrefManager.getInstance(applicationContext).user.id,
+                "Bearer "+SharedPrefManager.getInstance(applicationContext).token
+            )
+            val resGifts = call.body()
+
+            if (call.isSuccessful) {
+                for (item in resGifts?.gifts!!) {
+                    listSpinner.add(item.title)
+                    listGift.add(item)
+                }
+                initSpinner(listSpinner)
+            } else {
+                println(call.message())
+            }
+        }
+
         binding.etDate.setOnClickListener { showDatePickerDialog() }
-
-
         binding.saveEvent.setOnClickListener {
+
+            var itemSelected = ""
+            listGift.forEach { gift ->
+                if (gift.title == binding.giftID.selectedItem) {
+                    itemSelected = gift.id
+                }
+            }
+
+            println(itemSelected)
+
             val jsonObject = JSONObject()
             jsonObject.put("title", binding.titleEvent.text.toString())
             jsonObject.put("description", binding.descriptionEvent.text.toString())
             jsonObject.put("date", binding.etDate.text.toString())
-            jsonObject.put("gift_id", binding.giftID.text.toString())
+            jsonObject.put("gift_id", itemSelected)
+            jsonObject.put("user_id", SharedPrefManager.getInstance(this).user.id)
 
             val jsonObjectString = jsonObject.toString()
 
@@ -65,6 +100,11 @@ class NewEventActivity : AppCompatActivity() {
 
                 })
         }
+    }
+
+    private fun initSpinner(listGift: List<String>) {
+        val adapter = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, listGift)
+        binding.giftID.adapter = adapter
     }
 
     private fun showDatePickerDialog() {

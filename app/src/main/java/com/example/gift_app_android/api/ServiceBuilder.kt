@@ -12,6 +12,7 @@ object ServiceBuilder {
             val original = chain.request()
 
             val requestBuilder = original.newBuilder()
+                .addHeader("Content-Type", "application/json")
                 .method(original.method, original.body)
 
             val request = requestBuilder.build()

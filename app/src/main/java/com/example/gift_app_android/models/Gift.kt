@@ -9,3 +9,13 @@ data class Gift(
     var code: String = "",
     var videoURL: String = "",
 ) : Serializable
+
+data class ResponseGift(
+    var message: String,
+    var status: Int,
+    var gift: Gift,
+) : Serializable
+
+data class GiftList(
+    var gifts: List<Gift>,
+) : Serializable

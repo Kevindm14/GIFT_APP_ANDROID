@@ -49,7 +49,7 @@
         android:textColorHint="@color/color_txt"
         android:backgroundTint="@color/color_txt"
         android:textColor="@color/color_txt"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

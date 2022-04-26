@@ -88,7 +88,7 @@
 
     </LinearLayout>
 
-    <GridLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="193dp"
@@ -101,9 +101,9 @@
             android:id="@+id/eventslist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="25dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
             tools:layout_editor_absoluteX="0dp" />
-    </GridLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,7 +86,7 @@
             android:src="@drawable/ic_launcher_background" />
 
         <Button
-            android:id="@+id/saveEvent"
+            android:id="@+id/saveGift"
             android:background="@drawable/button_rounded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

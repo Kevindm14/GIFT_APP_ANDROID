@@ -1,29 +1,50 @@
 package com.example.gift_app_android.api
 
-import com.example.gift_app_android.models.CreateEventResponse
-import com.example.gift_app_android.models.EventResponse
-import com.example.gift_app_android.models.Response
+import com.example.gift_app_android.models.*
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
+
 interface Api {
-    @Headers("Content-Type: application/json")
     @POST("/auth/login")
-    fun login(
+    suspend fun login(
         @Body body: RequestBody
-    ): Call<Response>
+    ): retrofit2.Response<Response>
 
-    @Headers("Content-Type: application/json")
+    @POST("/auth/signup")
+    suspend fun register(
+        @Body body: RequestBody
+    ): retrofit2.Response<Response>
+
     @GET("/events")
-    fun listEvents(
+    suspend fun listEvents(
         @Header("Authorization") auth: String
-    ): Call<EventResponse>
+    ): retrofit2.Response<EventResponse>
 
-    @Headers("Content-Type: application/json")
+    @GET("/gifts/{user_id}")
+    suspend fun listGifts(
+        @Path("user_id") userID: String,
+        @Header("Authorization") auth: String
+    ): retrofit2.Response<GiftList>
+
+    @GET("/gifts/qr/view")
+    suspend fun generateQR(
+        @Header("Authorization") auth: String
+    ): retrofit2.Response<ResponseQr>
+
     @POST("/events/create")
     fun createEvent(
         @Body body: RequestBody,
         @Header("Authorization") auth: String
     ): Call<CreateEventResponse>
+
+    @Multipart
+    @POST("/gifts/create")
+    suspend fun createGift(
+        @Header("Authorization") authorization: String,
+        @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part videoFile: MultipartBody.Part
+    ): retrofit2.Response<ResponseGift>
 }
